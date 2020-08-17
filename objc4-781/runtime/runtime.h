@@ -40,19 +40,19 @@
 
 #if !OBJC_TYPES_DEFINED
 
-/// An opaque type that represents a method in a class definition.
+/// An opaque type that represents a method in a class definition. Method 定义
 typedef struct objc_method *Method;
 
-/// An opaque type that represents an instance variable.
+/// An opaque type that represents an instance variable. Ivar 定义
 typedef struct objc_ivar *Ivar;
 
-/// An opaque type that represents a category.
+/// An opaque type that represents a category. Category 定义
 typedef struct objc_category *Category;
 
-/// An opaque type that represents an Objective-C declared property.
+/// An opaque type that represents an Objective-C declared property. objc_property_t 定义
 typedef struct objc_property *objc_property_t;
 
-struct objc_class {
+struct objc_class { // objc_class 定义
     Class _Nonnull isa  OBJC_ISA_AVAILABILITY;
 
 #if !__OBJC2__
@@ -1951,7 +1951,7 @@ struct objc_category {
 }                                                            OBJC2_UNAVAILABLE;
 
 
-struct objc_ivar {
+struct objc_ivar { // 属性定义
     char * _Nullable ivar_name                               OBJC2_UNAVAILABLE;
     char * _Nullable ivar_type                               OBJC2_UNAVAILABLE;
     int ivar_offset                                          OBJC2_UNAVAILABLE;
@@ -1960,7 +1960,7 @@ struct objc_ivar {
 #endif
 }                                                            OBJC2_UNAVAILABLE;
 
-struct objc_ivar_list {
+struct objc_ivar_list { // 属性列表定义
     int ivar_count                                           OBJC2_UNAVAILABLE;
 #ifdef __LP64__
     int space                                                OBJC2_UNAVAILABLE;
@@ -1970,13 +1970,13 @@ struct objc_ivar_list {
 }                                                            OBJC2_UNAVAILABLE;
 
 
-struct objc_method {
+struct objc_method { // 方法定义
     SEL _Nonnull method_name                                 OBJC2_UNAVAILABLE;
     char * _Nullable method_types                            OBJC2_UNAVAILABLE;
     IMP _Nonnull method_imp                                  OBJC2_UNAVAILABLE;
 }                                                            OBJC2_UNAVAILABLE;
 
-struct objc_method_list {
+struct objc_method_list { // 方法列表定义
     struct objc_method_list * _Nullable obsolete             OBJC2_UNAVAILABLE;
 
     int method_count                                         OBJC2_UNAVAILABLE;

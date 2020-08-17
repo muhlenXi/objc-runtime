@@ -7,10 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RDPet.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RDPerson : NSObject
+
+@property(nonatomic, assign) NSInteger age;
+@property(nonatomic, copy) NSString *name;
+@property(nonatomic, strong) RDPet *pet;
+
+- (void)sayHello;
++ (void)helloWorld;
 
 @end
 

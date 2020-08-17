@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C868653024E0E9250030C055 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C868652F24E0E9250030C055 /* main.m */; };
 		C868653824E0EACA0030C055 /* RDPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = C868653724E0EACA0030C055 /* RDPerson.m */; };
+		C8D72DE824E7C2750066FD27 /* RDPet.m in Sources */ = {isa = PBXBuildFile; fileRef = C8D72DE724E7C2750066FD27 /* RDPet.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,9 @@
 		C868652F24E0E9250030C055 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C868653624E0EACA0030C055 /* RDPerson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDPerson.h; sourceTree = "<group>"; };
 		C868653724E0EACA0030C055 /* RDPerson.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDPerson.m; sourceTree = "<group>"; };
+		C8D72DE624E7C2750066FD27 /* RDPet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDPet.h; sourceTree = "<group>"; };
+		C8D72DE724E7C2750066FD27 /* RDPet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDPet.m; sourceTree = "<group>"; };
+		C8D72DEA24E9FF6E0066FD27 /* libobjc.A.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; path = libobjc.A.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +50,7 @@
 			children = (
 				C868652E24E0E9250030C055 /* RuntimeDemo */,
 				C868652D24E0E9250030C055 /* Products */,
+				C8D72DE924E9FF6E0066FD27 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -61,10 +66,20 @@
 			isa = PBXGroup;
 			children = (
 				C868652F24E0E9250030C055 /* main.m */,
+				C8D72DE624E7C2750066FD27 /* RDPet.h */,
+				C8D72DE724E7C2750066FD27 /* RDPet.m */,
 				C868653624E0EACA0030C055 /* RDPerson.h */,
 				C868653724E0EACA0030C055 /* RDPerson.m */,
 			);
 			path = RuntimeDemo;
+			sourceTree = "<group>";
+		};
+		C8D72DE924E9FF6E0066FD27 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C8D72DEA24E9FF6E0066FD27 /* libobjc.A.dylib */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -124,6 +139,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8D72DE824E7C2750066FD27 /* RDPet.m in Sources */,
 				C868653824E0EACA0030C055 /* RDPerson.m in Sources */,
 				C868653024E0E9250030C055 /* main.m in Sources */,
 			);

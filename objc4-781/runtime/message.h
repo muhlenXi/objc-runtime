@@ -47,7 +47,7 @@ struct objc_super {
 #endif
 
 
-/* Basic Messaging Primitives
+/* Basic Messaging Primitives  基础消息
  *
  * On some architectures, use objc_msgSend_stret for some struct return types.
  * On some architectures, use objc_msgSend_fpret for some float return types.
