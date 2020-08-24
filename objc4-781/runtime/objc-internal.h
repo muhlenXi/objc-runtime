@@ -256,7 +256,7 @@ objc_copyClassNamesForImageHeader(const struct mach_header * _Nonnull mh,
 // Tag index 264 is reserved.
 
 #if __has_feature(objc_fixed_enum)  ||  __cplusplus >= 201103L
-enum objc_tag_index_t : uint16_t
+enum objc_tag_index_t : uint16_t  // Tagged point 标志位
 #else
 typedef uint16_t objc_tag_index_t;
 enum
@@ -439,7 +439,7 @@ _objc_makeTaggedPointer(objc_tag_index_t tag, uintptr_t value)
     }
 }
 
-static inline bool 
+static inline bool // 判断是否是否是 tagged point，也就是最高位是否是 1
 _objc_isTaggedPointer(const void * _Nullable ptr)
 {
     return ((uintptr_t)ptr & _OBJC_TAG_MASK) == _OBJC_TAG_MASK;

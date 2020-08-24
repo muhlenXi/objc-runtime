@@ -59,15 +59,15 @@
 #   define ISA_MAGIC_MASK  0x000003f000000001ULL
 #   define ISA_MAGIC_VALUE 0x000001a000000001ULL
 #   define ISA_BITFIELD                                                      \
-      uintptr_t nonpointer        : 1;                                       \
-      uintptr_t has_assoc         : 1;                                       \
-      uintptr_t has_cxx_dtor      : 1;                                       \
+      uintptr_t nonpointer        : 1;  /*是否开启 isa 优化*/                    \
+      uintptr_t has_assoc         : 1;  /*是否有关联对象*/               \
+      uintptr_t has_cxx_dtor      : 1;  /*是否有C++析构函数*/                     \
       uintptr_t shiftcls          : 33; /*MACH_VM_MAX_ADDRESS 0x1000000000*/ \
       uintptr_t magic             : 6;                                       \
-      uintptr_t weakly_referenced : 1;                                       \
-      uintptr_t deallocating      : 1;                                       \
-      uintptr_t has_sidetable_rc  : 1;                                       \
-      uintptr_t extra_rc          : 19
+      uintptr_t weakly_referenced : 1;  /*是否被别的对象弱引用*/              \
+      uintptr_t deallocating      : 1;  /*是否正在释放*/                \
+      uintptr_t has_sidetable_rc  : 1;  /*是否额外使用 sidetable 存储引用计数 */      \
+      uintptr_t extra_rc          : 19  /*引用对象减1的值*/  
 #   define RC_ONE   (1ULL<<45)
 #   define RC_HALF  (1ULL<<18)
 
@@ -76,7 +76,7 @@
 #   define ISA_MAGIC_MASK  0x001f800000000001ULL
 #   define ISA_MAGIC_VALUE 0x001d800000000001ULL
 #   define ISA_BITFIELD                                                        \
-      uintptr_t nonpointer        : 1;                                         \
+      uintptr_t nonpointer        : 1;                                           \
       uintptr_t has_assoc         : 1;                                         \
       uintptr_t has_cxx_dtor      : 1;                                         \
       uintptr_t shiftcls          : 44; /*MACH_VM_MAX_ADDRESS 0x7fffffe00000*/ \

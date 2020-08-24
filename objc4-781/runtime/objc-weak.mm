@@ -487,7 +487,7 @@ weak_clear_no_lock(weak_table_t *weak_table, id referent_id)
         objc_object **referrer = referrers[i];
         if (referrer) {
             if (*referrer == referent) {
-                *referrer = nil;
+                *referrer = nil; // weak 引用置为 nil
             }
             else if (*referrer) {
                 _objc_inform("__weak variable at %p holds %p instead of %p. "

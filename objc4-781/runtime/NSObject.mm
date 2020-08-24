@@ -89,7 +89,7 @@ namespace {
 
 #define SIDE_TABLE_RC_SHIFT 2
 #define SIDE_TABLE_FLAG_MASK (SIDE_TABLE_RC_ONE-1)
-
+// 引用计数为0时，是否自动清除对象
 struct RefcountMapValuePurgeable {
     static inline bool isPurgeable(size_t x) {
         return x == 0;
@@ -103,11 +103,11 @@ typedef objc::DenseMap<DisguisedPtr<objc_object>,size_t,RefcountMapValuePurgeabl
 // Template parameters.
 enum HaveOld { DontHaveOld = false, DoHaveOld = true };
 enum HaveNew { DontHaveNew = false, DoHaveNew = true };
-
+// SideTable 定义
 struct SideTable {
-    spinlock_t slock;
-    RefcountMap refcnts;
-    weak_table_t weak_table;
+    spinlock_t slock;  // 自旋锁
+    RefcountMap refcnts; // 对象引用计数 map
+    weak_table_t weak_table; // 对象弱引用 map
 
     SideTable() {
         memset(&weak_table, 0, sizeof(weak_table));
@@ -243,7 +243,7 @@ objc_retain_autorelease(id obj)
     return objc_autorelease(objc_retain(obj));
 }
 
-
+// strong 定义
 void
 objc_storeStrong(id *location, id obj)
 {
@@ -394,7 +394,7 @@ objc_storeWeakOrNil(id *location, id newObj)
 
 /** 
  * Initialize a fresh weak pointer to some object location. 
- * It would be used for code like: 
+ * It would be used for code like: 弱引用初始化对象
  *
  * (The nil case) 
  * __weak id weakPtr;
@@ -1578,7 +1578,7 @@ objc_object::sidetable_clearDeallocating()
 
 
 #if __OBJC2__
-
+// 引用计数 +1
 __attribute__((aligned(16), flatten, noinline))
 id 
 objc_retain(id obj)
@@ -1588,7 +1588,7 @@ objc_retain(id obj)
     return obj->retain();
 }
 
-
+// 引用计数 -1
 __attribute__((aligned(16), flatten, noinline))
 void 
 objc_release(id obj)
@@ -1814,7 +1814,7 @@ objc_opt_respondsToSelector(id obj, SEL sel)
 }
 
 void
-_objc_rootDealloc(id obj)
+_objc_rootDealloc(id obj) // 析构对象
 {
     ASSERT(obj);
 

@@ -37,7 +37,7 @@
 /// An opaque type that represents an Objective-C class. Class 定义
 typedef struct objc_class *Class;
 
-/// Represents an instance of a class. 实例对象
+/// Represents an instance of a class. 实例对象 定义
 struct objc_object {
     Class _Nonnull isa  OBJC_ISA_AVAILABILITY;
 };

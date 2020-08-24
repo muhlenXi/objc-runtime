@@ -1283,7 +1283,7 @@ class_rw_t::extAlloc(const class_ro_t *ro, bool deepCopy)
     return rwe;
 }
 
-// Attach method lists and properties and protocols from categories to a class.
+// Attach method lists and properties and protocols from categories to a class. 类别<内容>添加到类中
 // Assumes the categories in cats are all loaded and sorted by load order, 
 // oldest categories first.
 static void
@@ -2973,7 +2973,7 @@ void _objc_flush_caches(Class cls)
 
 
 /***********************************************************************
-* map_images
+* map_images 方法定义
 * Process the given images which are being mapped in by dyld.
 * Calls ABI-agnostic code after taking ABI-specific locks.
 *
@@ -2987,7 +2987,7 @@ map_images(unsigned count, const char * const paths[],
     return map_images_nolock(count, paths, mhdrs);
 }
 
-
+// 加载 categories
 static void load_categories_nolock(header_info *hi) {
     bool hasClassProperties = hi->info()->hasCategoryClassProperties();
 
@@ -3360,7 +3360,7 @@ readProtocol(protocol_t *newproto, Class protocol_class,
 }
 
 /***********************************************************************
-* _read_images
+* _read_images 方法定义  读取 images
 * Perform initial processing of the headers in the linked 
 * list beginning with headerList. 
 *
@@ -3486,7 +3486,7 @@ void _read_images(header_info **hList, uint32_t hCount, int totalClasses, int un
 
     // Discover classes. Fix up unresolved future classes. Mark bundle classes.
     bool hasDyldRoots = dyld_shared_cache_some_image_overridden();
-
+    // Class List
     for (EACH_HEADER) {
         if (! mustReadClasses(hi, hasDyldRoots)) {
             // Image is sufficiently optimized that we need not call readClass()
@@ -3555,7 +3555,7 @@ void _read_images(header_info **hList, uint32_t hCount, int totalClasses, int un
 #endif
 
     bool cacheSupportsProtocolRoots = sharedCacheSupportsProtocolRoots();
-
+    // Protocol List
     // Discover protocols. Fix up protocol refs.
     for (EACH_HEADER) {
         extern objc_class OBJC_CLASS_$_Protocol;
@@ -3878,7 +3878,7 @@ method_getDescription(Method m)
 
 
 IMP 
-method_getImplementation(Method m)
+method_getImplementation(Method m)  // 获取方法实现
 {
     return m ? m->imp : nil;
 }
@@ -3902,7 +3902,7 @@ method_getName(Method m)
 
 
 /***********************************************************************
-* method_getTypeEncoding
+* method_getTypeEncoding 获取方法参数和返回值的描述
 * Returns this method's old-style type encoding string.
 * The method must not be nil.
 * Locking: none
@@ -5904,7 +5904,7 @@ static Method _class_getMethod(Class cls, SEL sel)
 
 
 /***********************************************************************
-* class_getInstanceMethod.  Return the instance method for the
+* class_getInstanceMethod.  Return the instance method for the 获取方法
 * specified class and selector.
 **********************************************************************/
 Method class_getInstanceMethod(Class cls, SEL sel)
@@ -6024,7 +6024,7 @@ static void resolveInstanceMethod(id inst, SEL sel, Class cls)
 
 
 /***********************************************************************
-* resolveMethod_locked
+* resolveMethod_locked 方法解析
 * Call +resolveClassMethod or +resolveInstanceMethod.
 *
 * Called with the runtimeLock held to avoid pressure in the caller
@@ -6080,7 +6080,7 @@ log_and_fill_cache(Class cls, IMP imp, SEL sel, id receiver, Class implementer)
 
 
 /***********************************************************************
-* lookUpImpOrForward.
+* lookUpImpOrForward.  // 方法实现查找或转发消息
 * The standard IMP lookup. 
 * Without LOOKUP_INITIALIZE: tries to avoid +initialize (but sometimes fails)
 * Without LOOKUP_CACHE: skips optimistic unlocked lookup (but uses cache elsewhere)
@@ -6099,7 +6099,7 @@ IMP lookUpImpOrForward(id inst, SEL sel, Class cls, int behavior)
 
     runtimeLock.assertUnlocked();
 
-    // Optimistic cache lookup
+    // Optimistic cache lookup 缓存中查找
     if (fastpath(behavior & LOOKUP_CACHE)) {
         imp = cache_getImp(cls, sel);
         if (imp) goto done_nolock;
@@ -6152,7 +6152,7 @@ IMP lookUpImpOrForward(id inst, SEL sel, Class cls, int behavior)
     // kind of cache lookup is class_getInstanceMethod().
 
     for (unsigned attempts = unreasonableClassCount();;) {
-        // curClass method list.
+        // curClass method list. 方法列表查找
         Method meth = getMethodNoSuper_nolock(curClass, sel);
         if (meth) {
             imp = meth->imp;
@@ -6171,7 +6171,7 @@ IMP lookUpImpOrForward(id inst, SEL sel, Class cls, int behavior)
             _objc_fatal("Memory corruption in class list.");
         }
 
-        // Superclass cache.
+        // Superclass cache. 父类缓存中查找
         imp = cache_getImp(curClass, sel);
         if (slowpath(imp == forward_imp)) {
             // Found a forward:: entry in a superclass.
@@ -6710,7 +6710,7 @@ addMethods(Class cls, const SEL *names, const IMP *imps, const char **types,
 
 
 BOOL 
-class_addMethod(Class cls, SEL name, IMP imp, const char *types)
+class_addMethod(Class cls, SEL name, IMP imp, const char *types) // 添加方法
 {
     if (!cls) return NO;
 
@@ -6720,7 +6720,7 @@ class_addMethod(Class cls, SEL name, IMP imp, const char *types)
 
 
 IMP 
-class_replaceMethod(Class cls, SEL name, IMP imp, const char *types)
+class_replaceMethod(Class cls, SEL name, IMP imp, const char *types) // 替换方法
 {
     if (!cls) return nil;
 

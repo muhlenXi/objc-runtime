@@ -640,7 +640,7 @@ void objc_setEnumerationMutationHandler(void (*handler)(id)) {
 
 
 /**********************************************************************
-* Associative Reference Support
+* Associative Reference Support 关联对象
 **********************************************************************/
 
 id

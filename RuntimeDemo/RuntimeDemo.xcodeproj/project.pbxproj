@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C868653024E0E9250030C055 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C868652F24E0E9250030C055 /* main.m */; };
 		C868653824E0EACA0030C055 /* RDPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = C868653724E0EACA0030C055 /* RDPerson.m */; };
+		C87F04FA24EA234E00F12456 /* libobjc.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D72DEA24E9FF6E0066FD27 /* libobjc.A.dylib */; };
+		C87F04FB24EA234E00F12456 /* libobjc.A.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = C8D72DEA24E9FF6E0066FD27 /* libobjc.A.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		C8D72DE824E7C2750066FD27 /* RDPet.m in Sources */ = {isa = PBXBuildFile; fileRef = C8D72DE724E7C2750066FD27 /* RDPet.m */; };
 /* End PBXBuildFile section */
 
@@ -21,6 +23,17 @@
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
+		};
+		C87F04FC24EA234E00F12456 /* Embed Libraries */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C87F04FB24EA234E00F12456 /* libobjc.A.dylib in Embed Libraries */,
+			);
+			name = "Embed Libraries";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -39,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C87F04FA24EA234E00F12456 /* libobjc.A.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +106,7 @@
 				C868652824E0E9250030C055 /* Sources */,
 				C868652924E0E9250030C055 /* Frameworks */,
 				C868652A24E0E9250030C055 /* CopyFiles */,
+				C87F04FC24EA234E00F12456 /* Embed Libraries */,
 			);
 			buildRules = (
 			);

@@ -905,7 +905,7 @@ void _objc_atfork_child()
 
 
 /***********************************************************************
-* _objc_init
+* _objc_init 定义 runtime 入口函数
 * Bootstrap initialization. Registers our image notifier with dyld.
 * Called by libSystem BEFORE library initialization time
 **********************************************************************/
@@ -925,7 +925,7 @@ void _objc_init(void)
     cache_init();
     _imp_implementationWithBlock_init();
 
-    _dyld_objc_notify_register(&map_images, load_images, unmap_image);
+    _dyld_objc_notify_register(&map_images, load_images, unmap_image);  // 注册通知
 
 #if __OBJC2__
     didCallDyldNotifyRegister = true;

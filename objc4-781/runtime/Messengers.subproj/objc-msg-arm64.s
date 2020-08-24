@@ -81,7 +81,7 @@ _objc_restartableRanges:
 
 
 /********************************************************************
- * GetClassFromIsa_p16 src
+ * GetClassFromIsa_p16 src 汇编方法定义
  * src is a raw isa field. Sets p16 to the corresponding class pointer.
  * The raw isa might be an indexed isa to be decoded, or a
  * packed isa that needs to be masked.
@@ -171,7 +171,7 @@ LExit$0:
 
 /********************************************************************
  *
- * CacheLookup NORMAL|GETIMP|LOOKUP <function>
+ * CacheLookup NORMAL|GETIMP|LOOKUP <function> 汇编方法定义
  *
  * Locate the implementation for a selector in a class method cache.
  *
@@ -333,7 +333,7 @@ LLookupRecover$1:
 
 /********************************************************************
  *
- * id objc_msgSend(id self, SEL _cmd, ...);
+ * id objc_msgSend(id self, SEL _cmd, ...); 汇编方法定义
  * IMP objc_msgLookup(id self, SEL _cmd, ...);
  * 
  * objc_msgLookup ABI:
@@ -492,7 +492,7 @@ LLookup_Nil:
 	END_ENTRY _objc_msgLookupSuper2
 
 
-.macro MethodTableLookup
+.macro MethodTableLookup // 汇编宏定义
 	
 	// push frame
 	SignLR
@@ -575,7 +575,7 @@ LGetImpMiss:
 
 /********************************************************************
 *
-* id _objc_msgForward(id self, SEL _cmd,...);
+* id _objc_msgForward(id self, SEL _cmd,...); 汇编方法定义
 *
 * _objc_msgForward is the externally-callable
 *   function returned by things like method_getImplementation().

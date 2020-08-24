@@ -18,9 +18,18 @@ void resolveMethod(void);
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        RDPerson *person = [[RDPerson alloc] init];
-        [person sayHello];
+        RDPet *pet = [RDPet new];
+        NSLog(@"%p", [pet class]);
+        NSLog(@"%p", [RDPet class]);
         
+        
+        
+        BOOL res1 = [[NSObject class] isKindOfClass:[NSObject class]];
+        BOOL res2 = [[NSObject class] isMemberOfClass:[NSObject class]];
+        BOOL res3 = [[RDPerson class] isKindOfClass:[RDPerson class]];
+        BOOL res4 = [[RDPerson class] isMemberOfClass:[RDPerson class]];
+        NSLog(@"%d %d %d %d", res1, res2, res3, res4);
+
     }
     return 0;
 }
@@ -43,7 +52,7 @@ void kvo() {
 void kvc() {
     RDPerson *person = [[RDPerson alloc] init];
     RDPet *dog = [RDPet new];
-    person.pet = dog;
+    //person.pet = dog;
     
     [person setValue:@"xiaobai" forKeyPath:@"name"];
     [person setValue:@19 forKeyPath:@"age"];

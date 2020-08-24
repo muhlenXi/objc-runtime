@@ -22,8 +22,7 @@
 
 - (void)sayHello {
     NSLog(@"Hello, I am %@, I am %ld years old. \n", self.name, self.age);
-    
-    [self.pet introduce];
+    //[self.pet introduce];
 }
 
 + (void)helloWorld {

@@ -64,10 +64,10 @@ namespace {
 };
 
 #include "isa.h"
-
+//isa_t 定义 联合
 union isa_t {
-    isa_t() { }
-    isa_t(uintptr_t value) : bits(value) { }
+    isa_t() { } // 构造函数 1
+    isa_t(uintptr_t value) : bits(value) { } // 构造函数 2
 
     Class cls;
     uintptr_t bits;
@@ -78,7 +78,7 @@ union isa_t {
 #endif
 };
 
-
+// objc_object 定义
 struct objc_object {
 private:
     isa_t isa;
@@ -195,7 +195,7 @@ private:
 
 
 #if __OBJC2__
-typedef struct method_t *Method;
+typedef struct method_t *Method;  // Method定义
 typedef struct ivar_t *Ivar;
 typedef struct category_t *Category;
 typedef struct property_t *objc_property_t;
@@ -811,7 +811,7 @@ class TimeLogger {
 
 enum { CacheLineSize = 64 };
 
-// StripedMap<T> is a map of void* -> T, sized appropriately 
+// StripedMap<T> is a map of void* -> T, sized appropriately 定义
 // for cache-friendly lock striping. 
 // For example, this may be used as StripedMap<spinlock_t>
 // or as StripedMap<SomeStruct> where SomeStruct stores a spin lock.

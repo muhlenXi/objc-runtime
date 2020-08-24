@@ -30,7 +30,7 @@
 #ifndef OBJC_SUPER
 #define OBJC_SUPER
 
-/// Specifies the superclass of an instance. 
+/// Specifies the superclass of an instance. objc_super 定义
 struct objc_super {
     /// Specifies an instance of a class.
     __unsafe_unretained _Nonnull id receiver;
@@ -245,7 +245,7 @@ OBJC_EXPORT void objc_msgSend_fp2ret(id _Nullable self, SEL _Nonnull op, ...)
 #endif
 
 
-/* Direct Method Invocation Primitives
+/* Direct Method Invocation Primitives  直接方法调用
  * Use these functions to call the implementation of a given Method.
  * This is faster than calling method_getImplementation() and method_getName().
  *
@@ -278,7 +278,7 @@ method_invoke_stret(id _Nullable receiver, Method _Nonnull m, ...)
 #endif
 
 
-/* Message Forwarding Primitives
+/* Message Forwarding Primitives  消息转发
  * Use these functions to forward a message as if the receiver did not 
  * respond to it. 
  *

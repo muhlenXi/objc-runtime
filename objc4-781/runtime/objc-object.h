@@ -75,13 +75,13 @@ objc_object::isClass()
 
 inline Class 
 objc_object::getIsa() 
-{
+{   // 不是 tagged point 取 isa
     if (fastpath(!isTaggedPointer())) return ISA();
 
     extern objc_class OBJC_CLASS_$___NSUnrecognizedTaggedPointer;
     uintptr_t slot, ptr = (uintptr_t)this;
     Class cls;
-
+    // 取 高4位值
     slot = (ptr >> _OBJC_TAG_SLOT_SHIFT) & _OBJC_TAG_SLOT_MASK;
     cls = objc_tag_classes[slot];
     if (slowpath(cls == (Class)&OBJC_CLASS_$___NSUnrecognizedTaggedPointer)) {
@@ -431,7 +431,7 @@ objc_object::clearDeallocating()
 
 
 inline void
-objc_object::rootDealloc()
+objc_object::rootDealloc() // 析构方法
 {
     if (isTaggedPointer()) return;  // fixme necessary?
 
@@ -731,7 +731,7 @@ objc_object::rootAutorelease()
 
 
 inline uintptr_t 
-objc_object::rootRetainCount()
+objc_object::rootRetainCount()  // 获取对象引用计数
 {
     if (isTaggedPointer()) return (uintptr_t)this;
 

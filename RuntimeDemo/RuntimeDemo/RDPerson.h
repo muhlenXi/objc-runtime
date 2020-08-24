@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, assign) NSInteger age;
 @property(nonatomic, copy) NSString *name;
-@property(nonatomic, strong) RDPet *pet;
+//@property(nonatomic, strong) RDPet *pet;
 
 - (void)sayHello;
 + (void)helloWorld;

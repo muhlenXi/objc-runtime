@@ -201,7 +201,7 @@ struct swift_class_t;
 
 enum Atomicity { Atomic = true, NotAtomic = false };
 enum IMPEncoding { Encoded = true, Raw = false };
-
+// bucket_t 定义
 struct bucket_t {
 private:
     // IMP-first is better for arm64e ptrauth and no worse for arm64.
@@ -263,7 +263,7 @@ public:
     void set(SEL newSel, IMP newImp, Class cls);
 };
 
-
+// cache_t 定义 方法缓存
 struct cache_t {
 #if CACHE_MASK_STORAGE == CACHE_MASK_STORAGE_OUTLINED
     explicit_atomic<struct bucket_t *> _buckets;
@@ -539,7 +539,7 @@ struct entsize_list_tt {
     };
 };
 
-
+// method_t 定义
 struct method_t {
     SEL name;
     const char *types;
@@ -695,7 +695,7 @@ struct protocol_list_t {
         return list + count;
     }
 };
-
+// class_ro_t 定义
 struct class_ro_t {
     uint32_t flags;
     uint32_t instanceStart;
@@ -888,7 +888,7 @@ class list_array_tt {
             return &list;
         }
     }
-
+    // 合并 lists
     void attachLists(List* const * addedLists, uint32_t addedCount) {
         if (addedCount == 0) return;
 
@@ -1002,16 +1002,16 @@ class protocol_array_t :
         return Super::duplicate<protocol_array_t>();
     }
 };
-
+// class_rw_ext_t 定义
 struct class_rw_ext_t {
     const class_ro_t *ro;
-    method_array_t methods;
-    property_array_t properties;
-    protocol_array_t protocols;
+    method_array_t methods; // 方法列表
+    property_array_t properties;  // 属性列表
+    protocol_array_t protocols;  // 协议列表
     char *demangledName;
     uint32_t version;
 };
-
+// class_rw_t 定义
 struct class_rw_t {
     // Be warned that Symbolication knows the layout of this structure.
     uint32_t flags;
@@ -1130,7 +1130,7 @@ public:
     }
 };
 
-
+// class_data_bits_t 定义
 struct class_data_bits_t {
     friend objc_class;
 
@@ -1240,9 +1240,8 @@ public:
     }
 };
 
-
+// objc_class 定义
 struct objc_class : objc_object {
-    // Class ISA;
     Class superclass;
     cache_t cache;             // formerly cache pointer and vtable
     class_data_bits_t bits;    // class_rw_t * plus custom rr/alloc flags
@@ -1646,7 +1645,7 @@ struct swift_class_t : objc_class {
     }
 };
 
-
+// 定义 类别
 struct category_t {
     const char *name;
     classref_t cls;

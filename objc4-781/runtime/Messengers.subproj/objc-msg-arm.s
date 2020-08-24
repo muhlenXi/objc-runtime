@@ -699,7 +699,7 @@ LNilReceiver:
 
 /********************************************************************
  *
- * _objc_msgSend_uncached
+ * _objc_msgSend_uncached 汇编方法定义
  * _objc_msgSend_stret_uncached
  * _objc_msgLookup_uncached
  * _objc_msgLookup_stret_uncached
