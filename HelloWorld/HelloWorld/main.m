@@ -1,15 +1,14 @@
 //
 //  main.m
-//  RuntimeDemo
+//  HelloWorld
 //
-//  Created by muhlenXi on 2020/8/10.
-//  Copyright © 2020 muhlenxi. All rights reserved.
+//  Created by muhlenXi on 2020/9/5.
+//  Copyright © 2020 muhlenXi. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import "RDPerson.h"
 #import "RDPet.h"
-
 
 void kvo(void);
 void kvc(void);
@@ -18,7 +17,7 @@ void resolveMethod(void);
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        //resolveMethod();
+        resolveMethod();
     }
     return 0;
 }
@@ -48,5 +47,3 @@ void kvc() {
     [person setValue:@"wangcai" forKeyPath:@"pet.name"];
     [person sayHello];
 }
-
-
