@@ -18,18 +18,10 @@ void resolveMethod(void);
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        RDPet *pet = [RDPet new];
-        NSLog(@"%p", [pet class]);
-        NSLog(@"%p", [RDPet class]);
+        NSArray *array = [[NSArray alloc] init];
+        NSArray *array1 = [NSArray array];
+        NSObject *object = [NSObject alloc];
         
-        
-        
-        BOOL res1 = [[NSObject class] isKindOfClass:[NSObject class]];
-        BOOL res2 = [[NSObject class] isMemberOfClass:[NSObject class]];
-        BOOL res3 = [[RDPerson class] isKindOfClass:[RDPerson class]];
-        BOOL res4 = [[RDPerson class] isMemberOfClass:[RDPerson class]];
-        NSLog(@"%d %d %d %d", res1, res2, res3, res4);
-
     }
     return 0;
 }

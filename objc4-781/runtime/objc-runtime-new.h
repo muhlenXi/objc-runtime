@@ -1293,7 +1293,7 @@ struct objc_class : objc_object {
 #endif
 
 #if FAST_CACHE_HAS_DEFAULT_AWZ
-    bool hasCustomAWZ() const {
+    bool hasCustomAWZ() const {  // 是否有默认的 allocWithZone 方法
         return !cache.getBit(FAST_CACHE_HAS_DEFAULT_AWZ);
     }
     void setHasDefaultAWZ() {

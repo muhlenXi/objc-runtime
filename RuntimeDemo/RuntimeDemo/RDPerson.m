@@ -14,8 +14,7 @@
 {
     self = [super init];
     if (self) {
-        self.name = @"unknow";
-        self.age = 0;
+        
     }
     return self;
 }
@@ -25,8 +24,8 @@
     //[self.pet introduce];
 }
 
-+ (void)helloWorld {
-    NSLog(@"Hello World!");
-}
+//+ (void)helloWorld {
+//    NSLog(@"Hello World!");
+//}
 
 @end

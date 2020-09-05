@@ -147,7 +147,7 @@ void vsyslog(int, const char *, va_list) UNAVAILABLE_ATTRIBUTE;
 
 #define ALWAYS_INLINE inline __attribute__((always_inline))
 #define NEVER_INLINE __attribute__((noinline))
-
+// GCC 编译器指令：允许程序员将最有可能执行的分支告诉编译器
 #define fastpath(x) (__builtin_expect(bool(x), 1))
 #define slowpath(x) (__builtin_expect(bool(x), 0))
 
