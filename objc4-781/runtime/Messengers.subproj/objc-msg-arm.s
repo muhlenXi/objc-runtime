@@ -241,7 +241,7 @@ LExit$0:
 //
 /////////////////////////////////////////////////////////////////////
 	
-.macro CacheLookup
+.macro CacheLookup // 宏定义 消息缓存查找
 	//
 	// Restart protocol:
 	//
@@ -367,7 +367,7 @@ LCacheMiss$1:
 
 /********************************************************************
  *
- * id objc_msgSend(id self, SEL _cmd, ...);
+ * id objc_msgSend(id self, SEL _cmd, ...); 消息发送 汇编
  * IMP objc_msgLookup(id self, SEL _cmd, ...);
  * 
  * objc_msgLookup ABI:

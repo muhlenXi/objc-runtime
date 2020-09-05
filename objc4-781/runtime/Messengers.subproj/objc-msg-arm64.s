@@ -198,7 +198,7 @@ LExit$0:
 #define LOOKUP 2
 
 // CacheHit: x17 = cached IMP, x12 = address of cached IMP, x1 = SEL, x16 = isa
-.macro CacheHit
+.macro CacheHit 宏定义
 .if $0 == NORMAL
 	TailCallCachedImp x17, x12, x1, x16	// authenticate and call imp
 .elseif $0 == GETIMP
@@ -216,7 +216,7 @@ LExit$0:
 .endif
 .endmacro
 
-.macro CheckMiss
+.macro CheckMiss  // 宏定义
 	// miss if bucket->sel == 0
 .if $0 == GETIMP
 	cbz	p9, LGetImpMiss
