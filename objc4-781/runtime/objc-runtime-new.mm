@@ -5981,7 +5981,7 @@ static void resolveClassMethod(id inst, SEL sel, Class cls)
 
 
 /***********************************************************************
-* resolveInstanceMethod
+* resolveInstanceMethod  动态方法解析
 * Call +resolveInstanceMethod, looking for a method to be added to class cls.
 * cls may be a metaclass or a non-meta class.
 * Does not check if the method already exists.
