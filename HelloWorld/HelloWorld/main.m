@@ -10,6 +10,12 @@
 #import "RDPerson.h"
 #import "RDPet.h"
 
+#ifdef DEBUG
+#define Log(format, ...) printf("%s\n", [[NSString stringWithFormat:format, ## __VA_ARGS__] UTF8String]);
+#else
+#define Log(format, ...);
+#endif
+
 void kvo(void);
 void kvc(void);
 void resolveMethod(void);
@@ -17,7 +23,12 @@ void resolveMethod(void);
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        resolveMethod();
+        RDPerson *p1 = [RDPerson alloc];
+        RDPerson *p2 = [p1 init];
+        RDPerson *p3 = [p1 init];
+        Log(@"%@ -- %p -- %p",p1, p1, &p1);
+        Log(@"%@ -- %p -- %p",p2, p2, &p2);
+        Log(@"%@ -- %p -- %p",p3, p3, &p3);
     }
     return 0;
 }
