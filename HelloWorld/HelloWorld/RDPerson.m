@@ -10,22 +10,4 @@
 
 @implementation RDPerson
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        
-    }
-    return self;
-}
-
-- (void)sayHello {
-    NSLog(@"Hello, I am %@, I am %ld years old. \n", self.name, self.age);
-    //[self.pet introduce];
-}
-
-//+ (void)helloWorld {
-//    NSLog(@"Hello World!");
-//}
-
 @end

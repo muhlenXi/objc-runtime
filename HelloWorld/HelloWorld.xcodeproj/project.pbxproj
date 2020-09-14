@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C8614DFA250F022C0033C077 /* RDTeacher.m in Sources */ = {isa = PBXBuildFile; fileRef = C8614DF9250F022C0033C077 /* RDTeacher.m */; };
 		C8D72DFF2503DE380066FD27 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C8D72DFE2503DE380066FD27 /* main.m */; };
 		C8D72E0D2503DEF00066FD27 /* libobjc.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D72E0C2503DEF00066FD27 /* libobjc.A.dylib */; };
 		C8D72E0E2503DEF00066FD27 /* libobjc.A.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = C8D72E0C2503DEF00066FD27 /* libobjc.A.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -38,6 +39,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C8614DF8250F022C0033C077 /* RDTeacher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDTeacher.h; sourceTree = "<group>"; };
+		C8614DF9250F022C0033C077 /* RDTeacher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDTeacher.m; sourceTree = "<group>"; };
 		C8D72DFB2503DE380066FD27 /* HelloWorld */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HelloWorld; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8D72DFE2503DE380066FD27 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C8D72E0C2503DEF00066FD27 /* libobjc.A.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; path = libobjc.A.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,6 +87,8 @@
 				C8D72E102503DF280066FD27 /* RDPerson.h */,
 				C8D72E122503DF280066FD27 /* RDPerson.m */,
 				C8D72DFE2503DE380066FD27 /* main.m */,
+				C8614DF8250F022C0033C077 /* RDTeacher.h */,
+				C8614DF9250F022C0033C077 /* RDTeacher.m */,
 			);
 			path = HelloWorld;
 			sourceTree = "<group>";
@@ -154,6 +159,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8614DFA250F022C0033C077 /* RDTeacher.m in Sources */,
 				C8D72DFF2503DE380066FD27 /* main.m in Sources */,
 				C8D72E142503DF280066FD27 /* RDPet.m in Sources */,
 				C8D72E152503DF280066FD27 /* RDPerson.m in Sources */,

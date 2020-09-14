@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RDPet : NSObject
 
+@property (nonatomic,copy) NSString *name;
 
 @end
 

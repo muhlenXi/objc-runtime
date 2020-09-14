@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "RDPerson.h"
 #import "RDPet.h"
+#import "RDTeacher.h"
 
 #ifdef DEBUG
 #define Log(format, ...) printf("%s\n", [[NSString stringWithFormat:format, ## __VA_ARGS__] UTF8String]);
@@ -21,14 +22,16 @@ void kvc(void);
 void resolveMethod(void);
 
 
+
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        RDPerson *p1 = [RDPerson alloc];
-        RDPerson *p2 = [p1 init];
-        RDPerson *p3 = [p1 init];
-        Log(@"%@ -- %p -- %p",p1, p1, &p1);
-        Log(@"%@ -- %p -- %p",p2, p2, &p2);
-        Log(@"%@ -- %p -- %p",p3, p3, &p3);
+        RDTeacher *t = [[RDTeacher alloc] init];
+        t.name = @"Lucy";
+        t.hobby = @"Men";
+        t.address = @"Earth";
+        
+        Log(@"%@", t);
+        
     }
     return 0;
 }
@@ -56,5 +59,4 @@ void kvc() {
     [person setValue:@"xiaobai" forKeyPath:@"name"];
     [person setValue:@19 forKeyPath:@"age"];
     [person setValue:@"wangcai" forKeyPath:@"pet.name"];
-    [person sayHello];
 }

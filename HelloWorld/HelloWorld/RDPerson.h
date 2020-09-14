@@ -13,13 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RDPerson : NSObject
 
-@property(nonatomic, copy) NSString *name;
-@property(nonatomic, assign) NSInteger age;
-//@property(nonatomic, strong) RDPet *pet;
-
-- (void)sayHello;
-//+ (void)helloWorld;
-
 @end
 
 NS_ASSUME_NONNULL_END
