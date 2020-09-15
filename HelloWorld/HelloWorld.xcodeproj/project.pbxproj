@@ -159,8 +159,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8614DFA250F022C0033C077 /* RDTeacher.m in Sources */,
 				C8D72DFF2503DE380066FD27 /* main.m in Sources */,
+				C8614DFA250F022C0033C077 /* RDTeacher.m in Sources */,
 				C8D72E142503DF280066FD27 /* RDPet.m in Sources */,
 				C8D72E152503DF280066FD27 /* RDPerson.m in Sources */,
 			);
