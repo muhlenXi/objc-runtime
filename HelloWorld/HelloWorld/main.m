@@ -18,13 +18,27 @@
 #define Log(format, ...);
 #endif
 
+
 void person() {
-    RDPerson *p1 = [RDPerson alloc];
+    RDPerson *p1 = [[RDPerson alloc] init];
+    p1.nickName = @"zhangsan";
     RDPerson *p2 = [p1 init];
     RDPerson *p3 = [p1 init];
     Log(@"%@ -- %p -- %p",p1, p1, &p1);
     Log(@"%@ -- %p -- %p",p2, p2, &p2);
     Log(@"%@ -- %p -- %p",p3, p3, &p3);
+}
+
+void personIsa() {
+    RDPerson *p1 = [[RDPerson alloc] init];
+    p1.nickName = @"zhangsan";
+    RDPerson *p2 = p1;
+    RDPerson *p3 = p1;
+    RDPerson *p4 = p1;
+    RDPerson *p5 = p1;
+    
+    // 创建一个 RDPet 对象，然后让 5 个 RDPet 类型指针指向这个对象，此时该对象的引用计数是 5，然后分析一下 isa 中的数据是否也是这样的。
+    Log(@"%@ -- %p",p1, p1);
 }
 
 void teacher() {
@@ -113,9 +127,20 @@ void testMemberOf() {
     NSLog(@"%d %d %d %d", res4, res5, res6, res7);
 }
 
+void testPet() {
+    RDPet *pet = [[RDPet alloc] init];
+    [pet playToy1];
+    [pet playToy2];
+    [pet playToy3];
+    [pet playToy4];
+    [pet playToy5];
+    [pet playToy6];
+}
+
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        testClass();
+        // personIsa();
+        testPet();
     }
     return 0;
 }

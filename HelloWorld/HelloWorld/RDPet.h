@@ -14,6 +14,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,copy) NSString *name;
 
+- (void)playToy1;
+- (void)playToy2;
+- (void)playToy3;
+- (void)playToy4;
+- (void)playToy5;
+- (void)playToy6;
+
 @end
 
 NS_ASSUME_NONNULL_END

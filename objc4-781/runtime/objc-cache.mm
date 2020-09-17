@@ -572,8 +572,8 @@ bool cache_t::canBeFreed()
 ALWAYS_INLINE
 void cache_t::reallocate(mask_t oldCapacity, mask_t newCapacity, bool freeOld)
 {
-    bucket_t *oldBuckets = buckets();
-    bucket_t *newBuckets = allocateBuckets(newCapacity);
+    bucket_t *oldBuckets = buckets();  // 获取旧的 buckets
+    bucket_t *newBuckets = allocateBuckets(newCapacity);  // 申请新的 buckets
 
     // Cache's old contents are not propagated. 
     // This is thought to save cache memory at the cost of extra cache fills.
@@ -581,10 +581,10 @@ void cache_t::reallocate(mask_t oldCapacity, mask_t newCapacity, bool freeOld)
 
     ASSERT(newCapacity > 0);
     ASSERT((uintptr_t)(mask_t)(newCapacity-1) == newCapacity-1);
-
+    // 设置新的 buckets
     setBucketsAndMask(newBuckets, newCapacity - 1);
     
-    if (freeOld) {
+    if (freeOld) {  // 释放旧的 buckets
         cache_collect_free(oldBuckets, oldCapacity);
     }
 }
@@ -647,44 +647,44 @@ void cache_t::insert(Class cls, SEL sel, IMP imp, id receiver)
     ASSERT(sel != 0 && cls->isInitialized());
 
     // Use the cache as-is if it is less than 3/4 full
-    mask_t newOccupied = occupied() + 1;
+    mask_t newOccupied = occupied() + 1;   // 已占用空间大小
     unsigned oldCapacity = capacity(), capacity = oldCapacity;
     if (slowpath(isConstantEmptyCache())) {
-        // Cache is read-only. Replace it.
+        // 申请容量为 4 的内存空间
         if (!capacity) capacity = INIT_CACHE_SIZE;
         reallocate(oldCapacity, capacity, /* freeOld */false);
     }
     else if (fastpath(newOccupied + CACHE_END_MARKER <= capacity / 4 * 3)) {
-        // Cache is less than 3/4 full. Use it as-is.
+        // 如果已占用空间大小 + 1 小于或等于总容量的四分之三，不扩容
     }
-    else {
+    else {  // 如果已占用空间大小 + 1 大于总容量的四分之三，扩容为之前总容量的2倍，缓存全清
         capacity = capacity ? capacity * 2 : INIT_CACHE_SIZE;
         if (capacity > MAX_CACHE_SIZE) {
-            capacity = MAX_CACHE_SIZE;
+            capacity = MAX_CACHE_SIZE; // 需要申请总容量大于最大容量，则为最大容量
         }
-        reallocate(oldCapacity, capacity, true);
+        reallocate(oldCapacity, capacity, true);  // 申请新的内存空间
     }
 
-    bucket_t *b = buckets();
-    mask_t m = capacity - 1;
-    mask_t begin = cache_hash(sel, m);
+    bucket_t *b = buckets();   // 获取 buckets
+    mask_t m = capacity - 1;   // 计算 mask
+    mask_t begin = cache_hash(sel, m);  // 计算 index
     mask_t i = begin;
 
     // Scan for the first unused slot and insert there.
     // There is guaranteed to be an empty slot because the
     // minimum size is 4 and we resized at 3/4 full.
     do {
-        if (fastpath(b[i].sel() == 0)) {
-            incrementOccupied();
+        if (fastpath(b[i].sel() == 0)) { // index 中没有方法缓存
+            incrementOccupied();  // 增加已占用容量
             b[i].set<Atomic, Encoded>(sel, imp, cls);
             return;
         }
-        if (b[i].sel() == sel) {
+        if (b[i].sel() == sel) {  // 该方法缓存已存在直接返回
             // The entry was added to the cache by some other thread
             // before we grabbed the cacheUpdateLock.
             return;
         }
-    } while (fastpath((i = cache_next(i, m)) != begin));
+    } while (fastpath((i = cache_next(i, m)) != begin));  // 如果 index 中有缓存，则计算下一个 index
 
     cache_t::bad_cache(receiver, (SEL)sel, cls);
 }

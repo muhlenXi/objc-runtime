@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RDPerson : NSObject
 
+@property (nonatomic,copy) NSString * nickName;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -11,5 +11,31 @@
 
 @implementation RDPet
 
+- (void)playToy1
+{
+    NSLog(@"Playing toy 1");
+}
+
+- (void)playToy2
+{
+    NSLog(@"Playing toy 2");
+}
+
+- (void)playToy3
+{
+    NSLog(@"Playing toy 3");
+}
+- (void)playToy4
+{
+    NSLog(@"Playing toy 4");
+}
+- (void)playToy5
+{
+    NSLog(@"Playing toy 5");
+}
+- (void)playToy6
+{
+    NSLog(@"Playing toy 6");
+}
 
 @end
