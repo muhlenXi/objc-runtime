@@ -10,7 +10,10 @@
 #import "RDPerson.h"
 #import "RDPet.h"
 #import "RDTeacher.h"
+#import "RDStudent.h"
+
 #import <objc/runtime.h>
+#import <objc/message.h>
 
 #ifdef DEBUG
 #define Log(format, ...) printf("%s\n", [[NSString stringWithFormat:format, ## __VA_ARGS__] UTF8String]);
@@ -137,10 +140,27 @@ void testPet() {
     [pet playToy6];
 }
 
+void testMessageSend() {
+    RDPerson *person = [[RDPerson alloc] init];
+    RDStudent *student = [[RDStudent alloc] init];
+    
+//    [person sayHello];
+//    [student sayHello];
+//    [student goToSchool];
+    
+    
+    objc_msgSend(person, sel_registerName("sayHello"));
+    struct objc_super father;
+    father.receiver = student;
+    father.super_class = [RDPerson class];
+    
+    objc_msgSendSuper(&father, sel_registerName("sayHello"));
+    objc_msgSend(student, sel_registerName("goToSchool"));
+}
+
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        // personIsa();
-        testPet();
+        testMessageSend();
     }
     return 0;
 }

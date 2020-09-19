@@ -10,4 +10,9 @@
 
 @implementation RDPerson
 
+- (void)sayHello
+{
+    NSLog(@"RDPerson: Hello Everybody!");
+}
+
 @end

@@ -18,8 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)sayStandUp;
 - (void)sayByebye;
-
-
 @end
 
 NS_ASSUME_NONNULL_END

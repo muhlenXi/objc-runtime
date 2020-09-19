@@ -81,7 +81,7 @@ _objc_restartableRanges:
 
 
 /********************************************************************
- * GetClassFromIsa_p16 src 汇编方法定义
+ * GetClassFromIsa_p16   获取 class from isa     src 汇编方法定义
  * src is a raw isa field. Sets p16 to the corresponding class pointer.
  * The raw isa might be an indexed isa to be decoded, or a
  * packed isa that needs to be masked.
@@ -170,7 +170,7 @@ LExit$0:
 
 
 /********************************************************************
- *
+ * 方法缓存查找
  * CacheLookup NORMAL|GETIMP|LOOKUP <function> 汇编方法定义
  *
  * Locate the implementation for a selector in a class method cache.
@@ -332,7 +332,7 @@ LLookupRecover$1:
 
 
 /********************************************************************
- *
+ * 消息发送
  * id objc_msgSend(id self, SEL _cmd, ...); 汇编方法定义
  * IMP objc_msgLookup(id self, SEL _cmd, ...);
  * 

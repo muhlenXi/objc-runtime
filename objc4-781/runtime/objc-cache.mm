@@ -180,7 +180,7 @@ static inline mask_t cache_next(mask_t i, mask_t mask) {
 #error unknown architecture
 #endif
 
-
+// https://developer.arm.com/documentation/dui0489/c/arm-and-thumb-instructions/miscellaneous-instructions/dmb--dsb--and-isb
 // mega_barrier doesn't really work, but it works enough on ARM that
 // we leave well enough alone and keep using it there.
 #if __arm__
@@ -370,9 +370,9 @@ void cache_t::setBucketsAndMask(struct bucket_t *newBuckets, mask_t newMask)
     
     ASSERT(buckets <= bucketsMask);
     ASSERT(mask <= maxMask);
-    
+    // (newMast 左移 48 位) | (newBuckets) 运算后就是 _maskAndBuckets 的新值
     _maskAndBuckets.store(((uintptr_t)newMask << maskShift) | (uintptr_t)newBuckets, std::memory_order_relaxed);
-    _occupied = 0;
+    _occupied = 0; // 占用清零处理
 }
 
 struct bucket_t *cache_t::emptyBuckets()
