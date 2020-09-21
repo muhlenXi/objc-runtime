@@ -266,8 +266,8 @@ public:
 // cache_t 定义 方法缓存
 struct cache_t {
 #if CACHE_MASK_STORAGE == CACHE_MASK_STORAGE_OUTLINED
-    explicit_atomic<struct bucket_t *> _buckets;
-    explicit_atomic<mask_t> _mask;
+    explicit_atomic<struct bucket_t *> _buckets;  // 方法数组
+    explicit_atomic<mask_t> _mask;                // 数组最大容量
 #elif CACHE_MASK_STORAGE == CACHE_MASK_STORAGE_HIGH_16
     explicit_atomic<uintptr_t> _maskAndBuckets;
     mask_t _mask_unused;
@@ -280,7 +280,7 @@ struct cache_t {
     // `mask << 4` from `_maskAndBuckets` in a single instruction.
     static constexpr uintptr_t maskZeroBits = 4;
     
-    // The largest mask value we can store.
+    // The largest mask value we can store. (1 << 16) - 1
     static constexpr uintptr_t maxMask = ((uintptr_t)1 << (64 - maskShift)) - 1;
     
     // The mask applied to `_maskAndBuckets` to retrieve the buckets pointer.
@@ -297,8 +297,8 @@ struct cache_t {
     mask_t _mask_unused;
 
     static constexpr uintptr_t maskBits = 4;
-    static constexpr uintptr_t maskMask = (1 << maskBits) - 1;
-    static constexpr uintptr_t bucketsMask = ~maskMask;
+    static constexpr uintptr_t maskMask = (1 << maskBits) - 1;  // 0000 0000 0000 1111 用于取出 mask， 0xffff 要移动的位数，实际 mask = 0xffff >> (_maskAndBuckets & maskMask)
+    static constexpr uintptr_t bucketsMask = ~maskMask;         // 1111 1111 1111 1111 用于取出 buckets
 #else
 #error Unknown cache mask storage type.
 #endif

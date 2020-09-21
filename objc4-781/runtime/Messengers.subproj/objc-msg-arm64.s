@@ -103,21 +103,21 @@ _objc_indexed_classes:
 
 #if SUPPORT_INDEXED_ISA
 	// Indexed isa
-	mov	p16, $0			// optimistically set dst = src
-	tbz	p16, #ISA_INDEX_IS_NPI_BIT, 1f	// done if not non-pointer isa
-	// isa in p16 is indexed
+	mov	p16, $0			                                    // optimistically set dst = src
+	tbz	p16, #ISA_INDEX_IS_NPI_BIT, 1f	                    // done if not non-pointer isa
+                                                            // isa in p16 is indexed
 	adrp	x10, _objc_indexed_classes@PAGE
 	add	x10, x10, _objc_indexed_classes@PAGEOFF
-	ubfx	p16, p16, #ISA_INDEX_SHIFT, #ISA_INDEX_BITS  // extract index
-	ldr	p16, [x10, p16, UXTP #PTRSHIFT]	// load class from array
+	ubfx	p16, p16, #ISA_INDEX_SHIFT, #ISA_INDEX_BITS     // extract index
+	ldr	p16, [x10, p16, UXTP #PTRSHIFT]                 	// load class from array
 1:
 
 #elif __LP64__
-	// 64-bit packed isa
-	and	p16, $0, #ISA_MASK
+                                                            // 64-bit packed isa
+	and	p16, $0, #ISA_MASK                                  // class = isa & isa_mask
 
 #else
-	// 32-bit raw isa
+                                                            // 32-bit raw isa
 	mov	p16, $0
 
 #endif
@@ -165,8 +165,8 @@ LExit$0:
 	.text
 .endmacro
 
-#define NoFrame 0x02000000  // no frame, no SP adjustment
-#define FrameWithNoSaves 0x04000000  // frame, no non-volatile saves
+#define NoFrame 0x02000000               // no frame, no SP adjustment
+#define FrameWithNoSaves 0x04000000      // frame, no non-volatile saves
 
 
 /********************************************************************
@@ -200,24 +200,24 @@ LExit$0:
 // CacheHit: x17 = cached IMP, x12 = address of cached IMP, x1 = SEL, x16 = isa
 .macro CacheHit 宏定义
 .if $0 == NORMAL
-	TailCallCachedImp x17, x12, x1, x16	// authenticate and call imp
+	TailCallCachedImp x17, x12, x1, x16	        // authenticate and call imp
 .elseif $0 == GETIMP
 	mov	p0, p17
-	cbz	p0, 9f			// don't ptrauth a nil imp
-	AuthAndResignAsIMP x0, x12, x1, x16	// authenticate imp and re-sign as IMP
-9:	ret				// return IMP
+	cbz	p0, 9f			                        // don't ptrauth a nil imp
+	AuthAndResignAsIMP x0, x12, x1, x16     	// authenticate imp and re-sign as IMP
+9:	ret				                            // return IMP
 .elseif $0 == LOOKUP
 	// No nil check for ptrauth: the caller would crash anyway when they
 	// jump to a nil IMP. We don't care if that jump also fails ptrauth.
-	AuthAndResignAsIMP x17, x12, x1, x16	// authenticate imp and re-sign as IMP
-	ret				// return imp via x17
+	AuthAndResignAsIMP x17, x12, x1, x16	    // authenticate imp and re-sign as IMP
+	ret				                            // return imp via x17
 .else
 .abort oops
 .endif
 .endmacro
 
 .macro CheckMiss  // 宏定义
-	// miss if bucket->sel == 0
+                                                // miss if bucket->sel == 0
 .if $0 == GETIMP
 	cbz	p9, LGetImpMiss
 .elseif $0 == NORMAL
@@ -266,44 +266,43 @@ LExit$0:
 LLookupStart$1:
 
 	// p1 = SEL, p16 = isa
-	ldr	p11, [x16, #CACHE]				// p11 = mask|buckets
+	ldr	p11, [x16, #CACHE]				                            // p11 = mask|buckets
 
 #if CACHE_MASK_STORAGE == CACHE_MASK_STORAGE_HIGH_16
-	and	p10, p11, #0x0000ffffffffffff	// p10 = buckets
-	and	p12, p1, p11, LSR #48		// x12 = _cmd & mask
+	and	p10, p11, #0x0000ffffffffffff	                            // p10 = buckets
+	and	p12, p1, p11, LSR #48		                                // x12 = _cmd & mask p11右移 48 位后得到 mask，然后 & _cmd 得到 index
 #elif CACHE_MASK_STORAGE == CACHE_MASK_STORAGE_LOW_4
-	and	p10, p11, #~0xf			// p10 = buckets
-	and	p11, p11, #0xf			// p11 = maskShift
+	and	p10, p11, #~0xf			                                    // p10 = buckets
+	and	p11, p11, #0xf			                                    // p11 = maskShift, 得到 计算 mask 需要的偏移量
 	mov	p12, #0xffff
-	lsr	p11, p12, p11				// p11 = mask = 0xffff >> p11
-	and	p12, p1, p11				// x12 = _cmd & mask
+	lsr	p11, p12, p11				                                // p11 = mask = 0xffff >> p11
+	and	p12, p1, p11				                                // x12 = _cmd & mask，得到 index
 #else
 #error Unsupported cache mask storage for ARM64.
 #endif
 
 
-	add	p12, p10, p12, LSL #(1+PTRSHIFT)
-		             // p12 = buckets + ((_cmd & mask) << (1+PTRSHIFT))
+	add	p12, p10, p12, LSL #(1+PTRSHIFT)                            // p12 = buckets + ((_cmd & mask) << (1+PTRSHIFT))，也就是 p12 = buckets + index * 16
 
-	ldp	p17, p9, [x12]		// {imp, sel} = *bucket
-1:	cmp	p9, p1			// if (bucket->sel != _cmd)
-	b.ne	2f			//     scan more
-	CacheHit $0			// call or return imp
+	ldp	p17, p9, [x12]		                                        // {imp, sel} = *bucket
+1:	cmp	p9, p1			                                            // 判断 bucket->sel == _cmd
+	b.ne	2f			                                            // 不相等，跳转到 2f  scan more
+	CacheHit $0			                                            // 相等，缓存命中 call or return imp
 	
 2:	// not hit: p12 = not-hit bucket
-	CheckMiss $0			// miss if bucket->sel == 0
-	cmp	p12, p10		// wrap if bucket == buckets
-	b.eq	3f
-	ldp	p17, p9, [x12, #-BUCKET_SIZE]!	// {imp, sel} = *--bucket
-	b	1b			// loop
+	CheckMiss $0			                                        // 检查 bucket->sel == 0，等于 0，则调用相应方法
+	cmp	p12, p10		                                            // 判断 当前 bucket == buckets（第一个）
+	b.eq	3f                                                      // 相等，则跳转 3f
+	ldp	p17, p9, [x12, #-BUCKET_SIZE]!	                            // {imp, sel} = *--bucket，取前一个赋值
+	b	1b			                                                // 跳转 1b，继续 loop
 
-3:	// wrap: p12 = first bucket, w11 = mask
+3:	                                                                // wrap: p12 = first bucket, w11 = mask
 #if CACHE_MASK_STORAGE == CACHE_MASK_STORAGE_HIGH_16
 	add	p12, p12, p11, LSR #(48 - (1+PTRSHIFT))
-					// p12 = buckets + (mask << 1+PTRSHIFT)
+                                                                    // p12 = buckets + (mask << 1+PTRSHIFT)，也就是 将buckets 最后一个元素的地址存到 p12 中
 #elif CACHE_MASK_STORAGE == CACHE_MASK_STORAGE_LOW_4
 	add	p12, p12, p11, LSL #(1+PTRSHIFT)
-					// p12 = buckets + (mask << 1+PTRSHIFT)
+                                                                    // p12 = buckets + (mask << 1+PTRSHIFT)
 #else
 #error Unsupported cache mask storage for ARM64.
 #endif
@@ -311,22 +310,22 @@ LLookupStart$1:
 	// Clone scanning loop to miss instead of hang when cache is corrupt.
 	// The slow path may detect any corruption and halt later.
 
-	ldp	p17, p9, [x12]		// {imp, sel} = *bucket
-1:	cmp	p9, p1			// if (bucket->sel != _cmd)
-	b.ne	2f			//     scan more
-	CacheHit $0			// call or return imp
+	ldp	p17, p9, [x12]	                                        	// {imp, sel} = *bucket
+1:	cmp	p9, p1			                                            // 判断 bucket->sel == _cmd
+	b.ne	2f			                                            // 不相等，跳转到 2f  scan more
+	CacheHit $0			                                            // 相等，缓存命中 call or return imp
 	
 2:	// not hit: p12 = not-hit bucket
-	CheckMiss $0			// miss if bucket->sel == 0
-	cmp	p12, p10		// wrap if bucket == buckets
-	b.eq	3f
-	ldp	p17, p9, [x12, #-BUCKET_SIZE]!	// {imp, sel} = *--bucket
-	b	1b			// loop
+	CheckMiss $0			                                        // 检查 bucket->sel == 0，等于 0，则调用相应方法
+	cmp	p12, p10		                                            // 判断 当前 bucket == buckets（第一个）
+	b.eq	3f                                                      // 相等，则跳转 3f
+	ldp	p17, p9, [x12, #-BUCKET_SIZE]!	                            // {imp, sel} = *--bucket，取前一个赋值
+	b	1b			                                                // 跳转 1b，继续 loop
 
 LLookupEnd$1:
 LLookupRecover$1:
 3:	// double wrap
-	JumpMiss $0
+	JumpMiss $0                                                     // 跳转 JumpMiss
 
 .endmacro
 
@@ -356,21 +355,21 @@ _objc_debug_taggedpointer_ext_classes:
 	ENTRY _objc_msgSend
 	UNWIND _objc_msgSend, NoFrame
 
-	cmp	p0, #0			// nil check and tagged pointer check
+	cmp	p0, #0			                    // nil check and tagged pointer check
 #if SUPPORT_TAGGED_POINTERS
-	b.le	LNilOrTagged		//  (MSB tagged pointer looks negative)
+	b.le	LNilOrTagged		            //  (MSB tagged pointer looks negative)
 #else
 	b.eq	LReturnZero
 #endif
-	ldr	p13, [x0]		// p13 = isa
-	GetClassFromIsa_p16 p13		// p16 = class
+	ldr	p13, [x0]		                    // p13 = isa
+	GetClassFromIsa_p16 p13	            	// p16 = class
 LGetIsaDone:
 	// calls imp or objc_msgSend_uncached
 	CacheLookup NORMAL, _objc_msgSend
 
 #if SUPPORT_TAGGED_POINTERS
 LNilOrTagged:
-	b.eq	LReturnZero		// nil check
+	b.eq	LReturnZero		                // nil check
 
 	// tagged
 	adrp	x10, _objc_debug_taggedpointer_classes@PAGE
