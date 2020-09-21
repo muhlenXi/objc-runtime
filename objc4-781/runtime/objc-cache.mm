@@ -389,7 +389,7 @@ struct bucket_t *cache_t::buckets()
 mask_t cache_t::mask()
 {
     uintptr_t maskAndBuckets = _maskAndBuckets.load(memory_order::memory_order_relaxed);
-    return maskAndBuckets >> maskShift;
+    return maskAndBuckets >> maskShift;  // maskShift = 48, 右移 48 位后得到 mask
 }
 
 void cache_t::initializeToEmpty()
