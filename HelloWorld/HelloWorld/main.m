@@ -11,6 +11,7 @@
 #import "RDPet.h"
 #import "RDTeacher.h"
 #import "RDStudent.h"
+#import "RDFruit.h"
 
 #import <objc/runtime.h>
 #import <objc/message.h>
@@ -21,6 +22,7 @@
 #define Log(format, ...);
 #endif
 
+extern void instrumentObjcMessageSends(BOOL);
 
 void person() {
     RDPerson *p1 = [[RDPerson alloc] init];
@@ -144,23 +146,53 @@ void testMessageSend() {
     RDPerson *person = [[RDPerson alloc] init];
     RDStudent *student = [[RDStudent alloc] init];
     
-//    [person sayHello];
-//    [student sayHello];
-//    [student goToSchool];
+    [person sayHello];
+    [student sayHello];
+    [student goToSchool];
     
     
     objc_msgSend(person, sel_registerName("sayHello"));
     struct objc_super father;
     father.receiver = student;
     father.super_class = [RDPerson class];
-    
+
     objc_msgSendSuper(&father, sel_registerName("sayHello"));
     objc_msgSend(student, sel_registerName("goToSchool"));
 }
 
+void printf_bin(int num)
+{
+    int i, j, k;
+    unsigned char *p = (unsigned char*)&num + 3;
+
+    for (i = 0; i < 8; i++) //处理4个字节(32位）
+    {
+        j = *(p - i); //取每个字节的首地址
+        for (int k = 7; k >= 0; k--) //处理每个字节的8个位
+        {
+            if (j & (1 << k))
+                printf("1");
+            else
+                printf("0");
+        }
+        printf(" ");
+    }
+    printf("\r\n");
+}
+
+void testMessageForward() {
+//    RDPerson *p1 = [[RDPerson alloc] init];
+//    RDPet *pet = [[RDPet alloc] init];
+//    RDTeacher *teacher = [[RDTeacher alloc] init];
+}
+
+
+
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        testMessageSend();
+        RDPet *pet = [[RDPet alloc] init];
+        
+        NSLog(@"%@", pet);
     }
     return 0;
 }

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		C8614DFA250F022C0033C077 /* RDTeacher.m in Sources */ = {isa = PBXBuildFile; fileRef = C8614DF9250F022C0033C077 /* RDTeacher.m */; };
+		C8BB015C253D8FD200DEEDEB /* RDPet+Cat1.m in Sources */ = {isa = PBXBuildFile; fileRef = C8BB015B253D8FD200DEEDEB /* RDPet+Cat1.m */; };
+		C8BB015F253D925400DEEDEB /* RDFruit.m in Sources */ = {isa = PBXBuildFile; fileRef = C8BB015E253D925400DEEDEB /* RDFruit.m */; };
 		C8C837A22515A51100F69281 /* RDStudent.m in Sources */ = {isa = PBXBuildFile; fileRef = C8C837A12515A51100F69281 /* RDStudent.m */; };
 		C8D72DFF2503DE380066FD27 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C8D72DFE2503DE380066FD27 /* main.m */; };
 		C8D72E0D2503DEF00066FD27 /* libobjc.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D72E0C2503DEF00066FD27 /* libobjc.A.dylib */; };
@@ -42,6 +44,10 @@
 /* Begin PBXFileReference section */
 		C8614DF8250F022C0033C077 /* RDTeacher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDTeacher.h; sourceTree = "<group>"; };
 		C8614DF9250F022C0033C077 /* RDTeacher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDTeacher.m; sourceTree = "<group>"; };
+		C8BB015A253D8FD200DEEDEB /* RDPet+Cat1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RDPet+Cat1.h"; sourceTree = "<group>"; };
+		C8BB015B253D8FD200DEEDEB /* RDPet+Cat1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "RDPet+Cat1.m"; sourceTree = "<group>"; };
+		C8BB015D253D925400DEEDEB /* RDFruit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDFruit.h; sourceTree = "<group>"; };
+		C8BB015E253D925400DEEDEB /* RDFruit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDFruit.m; sourceTree = "<group>"; };
 		C8C837A02515A51100F69281 /* RDStudent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDStudent.h; sourceTree = "<group>"; };
 		C8C837A12515A51100F69281 /* RDStudent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDStudent.m; sourceTree = "<group>"; };
 		C8D72DFB2503DE380066FD27 /* HelloWorld */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HelloWorld; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,6 +100,10 @@
 				C8614DF9250F022C0033C077 /* RDTeacher.m */,
 				C8C837A02515A51100F69281 /* RDStudent.h */,
 				C8C837A12515A51100F69281 /* RDStudent.m */,
+				C8BB015A253D8FD200DEEDEB /* RDPet+Cat1.h */,
+				C8BB015B253D8FD200DEEDEB /* RDPet+Cat1.m */,
+				C8BB015D253D925400DEEDEB /* RDFruit.h */,
+				C8BB015E253D925400DEEDEB /* RDFruit.m */,
 			);
 			path = HelloWorld;
 			sourceTree = "<group>";
@@ -165,9 +175,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8C837A22515A51100F69281 /* RDStudent.m in Sources */,
+				C8BB015F253D925400DEEDEB /* RDFruit.m in Sources */,
 				C8D72DFF2503DE380066FD27 /* main.m in Sources */,
 				C8614DFA250F022C0033C077 /* RDTeacher.m in Sources */,
 				C8D72E142503DF280066FD27 /* RDPet.m in Sources */,
+				C8BB015C253D8FD200DEEDEB /* RDPet+Cat1.m in Sources */,
 				C8D72E152503DF280066FD27 /* RDPerson.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

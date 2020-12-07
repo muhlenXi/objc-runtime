@@ -899,9 +899,9 @@ class list_array_tt {
             setArray((array_t *)realloc(array(), array_t::byteSize(newCount)));
             array()->count = newCount;
             memmove(array()->lists + addedCount, array()->lists, 
-                    oldCount * sizeof(array()->lists[0]));
+                    oldCount * sizeof(array()->lists[0]));   // 内存移动函数  void *memmove( void* dest, const void* src, size_t count );
             memcpy(array()->lists, addedLists, 
-                   addedCount * sizeof(array()->lists[0]));
+                   addedCount * sizeof(array()->lists[0]));  // 内存拷贝函数  void *memcpy(void *destin, void *source, unsigned n);
         }
         else if (!list  &&  addedCount == 1) {
             // 0 lists -> 1 list
@@ -1130,7 +1130,7 @@ public:
     }
 };
 
-// class_data_bits_t 定义
+/// class_data_bits_t 定义
 struct class_data_bits_t {
     friend objc_class;
 

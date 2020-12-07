@@ -3646,6 +3646,7 @@ void _read_images(header_info **hList, uint32_t hCount, int totalClasses, int un
                 // classes like Swift.__EmptyArrayStorage
             }
             realizeClassWithoutSwift(cls, nil);
+            // printf("✅  %s \n", cls -> mangledName());
         }
     }
 
@@ -5743,7 +5744,6 @@ findMethodInSortedMethodList(SEL key, const method_list_t *list)
     const method_t *probe;
     uintptr_t keyValue = (uintptr_t)key;
     uint32_t count;
-    
     for (count = list->count; count != 0; count >>= 1) {
         probe = base + (count >> 1);
         
@@ -6099,7 +6099,7 @@ IMP lookUpImpOrForward(id inst, SEL sel, Class cls, int behavior)
 
     runtimeLock.assertUnlocked();
 
-    // Optimistic cache lookup 缓存中查找
+    // Optimistic cache lookup 如果 behavior 是 LOOKUP_CACHE，则从缓存中查找
     if (fastpath(behavior & LOOKUP_CACHE)) {
         imp = cache_getImp(cls, sel);
         if (imp) goto done_nolock;
@@ -6158,7 +6158,7 @@ IMP lookUpImpOrForward(id inst, SEL sel, Class cls, int behavior)
             imp = meth->imp;
             goto done;
         }
-
+        // curClass 赋值为父类，并且判断是否是 nil
         if (slowpath((curClass = curClass->superclass) == nil)) {
             // No implementation found, and method resolver didn't help.
             // Use forwarding.
@@ -6166,12 +6166,12 @@ IMP lookUpImpOrForward(id inst, SEL sel, Class cls, int behavior)
             break;
         }
 
-        // Halt if there is a cycle in the superclass chain.
+        // Halt if there is a cycle in the superclass chain. 防止陷入死循环
         if (slowpath(--attempts == 0)) {
             _objc_fatal("Memory corruption in class list.");
         }
 
-        // Superclass cache. 父类缓存中查找
+        // Superclass cache. 在父类缓存中查找
         imp = cache_getImp(curClass, sel);
         if (slowpath(imp == forward_imp)) {
             // Found a forward:: entry in a superclass.

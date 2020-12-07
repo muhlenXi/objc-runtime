@@ -11,6 +11,10 @@
 
 @implementation RDPet
 
+//+ (void)load {
+//    
+//}
+
 - (void)playToy1
 {
     NSLog(@"Playing toy 1");

@@ -10,9 +10,32 @@
 
 @implementation RDPerson
 
++ (void)load {
+    
+}
+
 - (void)sayHello
 {
     NSLog(@"RDPerson: Hello Everybody!");
 }
 
-@end
++ (BOOL)resolveInstanceMethod:(SEL)sel {
+    NSLog(@"%@  👹", NSStringFromSelector(sel));
+    return NO;
+}
+
+//- (id)forwardingTargetForSelector:(SEL)aSelector {
+//    NSLog(@"forwardingTargetForSelector");
+//    return  nil;
+//}
+
+//- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+//    NSLog(@"methodSignatureForSelector");
+//    return  nil;
+//}
+
+- (void)forwardInvocation:(NSInvocation *)anInvocation {
+    NSLog(@"forwardInvocation");
+}
+
+@end 

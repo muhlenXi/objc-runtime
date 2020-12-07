@@ -123,13 +123,13 @@ struct magic_t {
 class AutoreleasePoolPage;
 struct AutoreleasePoolPageData
 {
-	magic_t const magic;
-	__unsafe_unretained id *next;
-	pthread_t const thread;
-	AutoreleasePoolPage * const parent;
-	AutoreleasePoolPage *child;
-	uint32_t const depth;
-	uint32_t hiwat;
+	magic_t const magic;          // 16
+	__unsafe_unretained id *next; // 8
+	pthread_t const thread;       // 8
+	AutoreleasePoolPage * const parent;  // 8
+	AutoreleasePoolPage *child;          // 8
+	uint32_t const depth;                // 4
+	uint32_t hiwat;                      // 4
 
 	AutoreleasePoolPageData(__unsafe_unretained id* _next, pthread_t _thread, AutoreleasePoolPage* _parent, uint32_t _depth, uint32_t _hiwat)
 		: magic(), next(_next), thread(_thread),

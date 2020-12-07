@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,copy) NSString * nickName;
 
-- (void) sayHello;
+- (void)sayHello;
+- (void)sayNB;
 
 @end
 

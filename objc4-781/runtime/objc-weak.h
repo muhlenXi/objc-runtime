@@ -77,7 +77,7 @@ typedef DisguisedPtr<objc_object *> weak_referrer_t;
 // Therefore out_of_line_ness == 0b10 is used to mark the out-of-line state.
 #define REFERRERS_OUT_OF_LINE 2
 // weak_entry_t 定义
-struct weak_entry_t { // 对象弱引用计数 哈希数组
+struct weak_entry_t {
     DisguisedPtr<objc_object> referent;
     union {
         struct {

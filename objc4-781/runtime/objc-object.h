@@ -241,7 +241,7 @@ objc_object::initIsa(Class cls, bool nonpointer, bool hasCxxDtor)
         newisa.has_cxx_dtor = hasCxxDtor;
         newisa.indexcls = (uintptr_t)cls->classArrayIndex();
 #else
-        newisa.bits = ISA_MAGIC_VALUE;
+        newisa.bits = ISA_MAGIC_VALUE;  // 0x001d800000000001ULL
         // isa.magic is part of ISA_MAGIC_VALUE
         // isa.nonpointer is part of ISA_MAGIC_VALUE
         newisa.has_cxx_dtor = hasCxxDtor;
@@ -500,6 +500,7 @@ objc_object::rootRetain(bool tryRetain, bool handleOverflow)
         transcribeToSideTable = false;
         oldisa = LoadExclusive(&isa.bits);
         newisa = oldisa;
+        // 如果是 pointer isa，则 sideTable 中的引用计数 + 1
         if (slowpath(!newisa.nonpointer)) {
             ClearExclusive(&isa.bits);
             if (rawISA()->isMetaClass()) return (id)this;
@@ -513,9 +514,10 @@ objc_object::rootRetain(bool tryRetain, bool handleOverflow)
             if (!tryRetain && sideTableLocked) sidetable_unlock();
             return nil;
         }
+        // isa 中的引用计数加 1，看是否有进位
         uintptr_t carry;
         newisa.bits = addc(newisa.bits, RC_ONE, 0, &carry);  // extra_rc++
-
+        // 有进位，说明 isa 不够存储
         if (slowpath(carry)) {
             // newisa.extra_rc++ overflowed
             if (!handleOverflow) {
@@ -527,13 +529,15 @@ objc_object::rootRetain(bool tryRetain, bool handleOverflow)
             if (!tryRetain && !sideTableLocked) sidetable_lock();
             sideTableLocked = true;
             transcribeToSideTable = true;
+            // 将 RC_HALF 存到 extra_rc 中
             newisa.extra_rc = RC_HALF;
+            // 标记还用了全局引用计数表
             newisa.has_sidetable_rc = true;
         }
     } while (slowpath(!StoreExclusive(&isa.bits, oldisa.bits, newisa.bits)));
 
     if (slowpath(transcribeToSideTable)) {
-        // Copy the other half of the retain counts to the side table.
+        // 如果有进位，将 RC_HALF 添加到 sidetable 中
         sidetable_addExtraRC_nolock(RC_HALF);
     }
 
@@ -729,9 +733,9 @@ objc_object::rootAutorelease()
     return rootAutorelease2();
 }
 
-
+/// 获取对象引用计数
 inline uintptr_t 
-objc_object::rootRetainCount()  // 获取对象引用计数
+objc_object::rootRetainCount()
 {
     if (isTaggedPointer()) return (uintptr_t)this;
 

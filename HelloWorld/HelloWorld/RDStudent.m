@@ -10,6 +10,10 @@
 
 @implementation RDStudent
 
+//+ (void)load {
+//    
+//}
+
 - (void)goToSchool
 {
     NSLog(@"RDStudent: Go to school every day!");

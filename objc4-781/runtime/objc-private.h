@@ -511,10 +511,10 @@ extern Class _calloc_class(size_t size);
 
 /* method lookup */
 enum {
-    LOOKUP_INITIALIZE = 1,
-    LOOKUP_RESOLVER = 2,
-    LOOKUP_CACHE = 4,
-    LOOKUP_NIL = 8,
+    LOOKUP_INITIALIZE = 1,  // 0001
+    LOOKUP_RESOLVER = 2,    // 0010
+    LOOKUP_CACHE = 4,       // 0100
+    LOOKUP_NIL = 8,         // 1000
 };
 extern IMP lookUpImpOrForward(id obj, SEL, Class cls, int behavior);
 

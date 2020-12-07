@@ -10,6 +10,10 @@
 
 @implementation RDTeacher
 
+//+ (void)load {
+//    
+//}
+
 + (void)sayStandUp {
     NSLog(@"Stand up");
 }

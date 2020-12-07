@@ -286,15 +286,15 @@ LLookupStart$1:
 
 	ldp	p17, p9, [x12]		                                        // {imp, sel} = *bucket
 1:	cmp	p9, p1			                                            // 判断 bucket->sel == _cmd
-	b.ne	2f			                                            // 不相等，跳转到 2f  scan more
+	b.ne	2f			                                            // 不相等，跳转到下面的 2  scan more
 	CacheHit $0			                                            // 相等，缓存命中 call or return imp
 	
 2:	// not hit: p12 = not-hit bucket
 	CheckMiss $0			                                        // 检查 bucket->sel == 0，等于 0，则调用相应方法
 	cmp	p12, p10		                                            // 判断 当前 bucket == buckets（第一个）
-	b.eq	3f                                                      // 相等，则跳转 3f
+	b.eq	3f                                                      // 相等，则跳转到下面的 3
 	ldp	p17, p9, [x12, #-BUCKET_SIZE]!	                            // {imp, sel} = *--bucket，取前一个赋值
-	b	1b			                                                // 跳转 1b，继续 loop
+	b	1b			                                                // 跳转到上面的 1，继续 loop
 
 3:	                                                                // wrap: p12 = first bucket, w11 = mask
 #if CACHE_MASK_STORAGE == CACHE_MASK_STORAGE_HIGH_16
@@ -312,15 +312,15 @@ LLookupStart$1:
 
 	ldp	p17, p9, [x12]	                                        	// {imp, sel} = *bucket
 1:	cmp	p9, p1			                                            // 判断 bucket->sel == _cmd
-	b.ne	2f			                                            // 不相等，跳转到 2f  scan more
+	b.ne	2f			                                            // 不相等，跳转到下面的 2  scan more
 	CacheHit $0			                                            // 相等，缓存命中 call or return imp
 	
 2:	// not hit: p12 = not-hit bucket
 	CheckMiss $0			                                        // 检查 bucket->sel == 0，等于 0，则调用相应方法
 	cmp	p12, p10		                                            // 判断 当前 bucket == buckets（第一个）
-	b.eq	3f                                                      // 相等，则跳转 3f
+	b.eq	3f                                                      // 相等，则跳转到下面的 3
 	ldp	p17, p9, [x12, #-BUCKET_SIZE]!	                            // {imp, sel} = *--bucket，取前一个赋值
-	b	1b			                                                // 跳转 1b，继续 loop
+	b	1b			                                                // 跳转到上面的 1，继续 loop
 
 LLookupEnd$1:
 LLookupRecover$1:
@@ -355,21 +355,22 @@ _objc_debug_taggedpointer_ext_classes:
 	ENTRY _objc_msgSend
 	UNWIND _objc_msgSend, NoFrame
 
-	cmp	p0, #0			                    // nil check and tagged pointer check
+	cmp	p0, #0			                    // nil check and tagged pointer check，检查消息接收对象是否是 nil 和支持 taggedPointer
 #if SUPPORT_TAGGED_POINTERS
-	b.le	LNilOrTagged		            //  (MSB tagged pointer looks negative)
+	b.le	LNilOrTagged		            //  (MSB tagged pointer looks negative) 如果支持 taggedPointer，则跳转 LNilOrTagged
 #else
-	b.eq	LReturnZero
+	b.eq	LReturnZero                     // 如果不支持 taggedPointer，并且是 nil 则跳转 LReturnZero
 #endif
-	ldr	p13, [x0]		                    // p13 = isa
-	GetClassFromIsa_p16 p13	            	// p16 = class
+
+	ldr	p13, [x0]		                    // p13 = isa 将消息接收对象的 isa，加载到 p13 中
+	GetClassFromIsa_p16 p13	            	// p16 = class 获取 isa 中的 shiftcls，加载到 p16 中
 LGetIsaDone:
-	// calls imp or objc_msgSend_uncached
+                                            // calls imp or objc_msgSend_uncached
 	CacheLookup NORMAL, _objc_msgSend
 
 #if SUPPORT_TAGGED_POINTERS
 LNilOrTagged:
-	b.eq	LReturnZero		                // nil check
+	b.eq	LReturnZero		                // 如果是 nil 则跳转 LReturnZero
 
 	// tagged
 	adrp	x10, _objc_debug_taggedpointer_classes@PAGE
@@ -381,7 +382,7 @@ LNilOrTagged:
 	cmp	x10, x16
 	b.ne	LGetIsaDone
 
-	// ext tagged
+                                            // ext tagged
 	adrp	x10, _objc_debug_taggedpointer_ext_classes@PAGE
 	add	x10, x10, _objc_debug_taggedpointer_ext_classes@PAGEOFF
 	ubfx	x11, x0, #52, #8
@@ -390,8 +391,8 @@ LNilOrTagged:
 // SUPPORT_TAGGED_POINTERS
 #endif
 
-LReturnZero:
-	// x0 is already zero
+LReturnZero:                                // 返回值清零后返回
+                                            // x0 is already zero
 	mov	x1, #0
 	movi	d0, #0
 	movi	d1, #0
@@ -404,21 +405,21 @@ LReturnZero:
 
 	ENTRY _objc_msgLookup
 	UNWIND _objc_msgLookup, NoFrame
-	cmp	p0, #0			// nil check and tagged pointer check
+	cmp	p0, #0			                    // nil check and tagged pointer check
 #if SUPPORT_TAGGED_POINTERS
-	b.le	LLookup_NilOrTagged	//  (MSB tagged pointer looks negative)
+	b.le	LLookup_NilOrTagged	            //  (MSB tagged pointer looks negative)
 #else
 	b.eq	LLookup_Nil
 #endif
-	ldr	p13, [x0]		// p13 = isa
-	GetClassFromIsa_p16 p13		// p16 = class
+	ldr	p13, [x0]		                    // p13 = isa
+	GetClassFromIsa_p16 p13		            // p16 = class
 LLookup_GetIsaDone:
-	// returns imp
+                                            // returns imp
 	CacheLookup LOOKUP, _objc_msgLookup
 
 #if SUPPORT_TAGGED_POINTERS
 LLookup_NilOrTagged:
-	b.eq	LLookup_Nil	// nil check
+	b.eq	LLookup_Nil	                    // nil check
 
 	// tagged
 	adrp	x10, _objc_debug_taggedpointer_classes@PAGE
