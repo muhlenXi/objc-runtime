@@ -190,9 +190,7 @@ void testMessageForward() {
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        RDPet *pet = [[RDPet alloc] init];
         
-        NSLog(@"%@", pet);
     }
     return 0;
 }
